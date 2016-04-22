@@ -18,50 +18,129 @@ public class UserDao {
 
 
     public User get(Long id) throws ClassNotFoundException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        User user = null;
 
-        //DaoFactory에서 connectionMaker할당
-        Connection connection = dataSource.getConnection();
+        try {
+            //DaoFactory에서 connectionMaker할당
+            connection = dataSource.getConnection();
 
-        // 쿼리만들고
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
-        preparedStatement.setLong(1, id);
-        // 실행
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
-        // 결과매핑
-        User user = new User();
-        user.setId(resultSet.getLong("id"));
-        user.setName(resultSet.getString("name"));
-        user.setPassword(resultSet.getString("password"));
+            // 쿼리만들고
+            preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
+            preparedStatement.setLong(1, id);
+            // 실행
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                // 결과매핑
+                user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setName(resultSet.getString("name"));
+                user.setPassword(resultSet.getString("password"));
+            }
 
-        //자원을 해지한다.
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(resultSet != null)
+            //자원을 해지한다.
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if(connection != null)
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+        }
+
 
         return user;
     }
 
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        //데이터는어디에?   Mysql
-        //Driver Class Load
-        Connection connection = dataSource.getConnection();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            //데이터는어디에?   Mysql
+            //Driver Class Load
+            connection = dataSource.getConnection();
 
-        // 쿼리만들고
-        PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) values(?, ? , ?)");
+            // 쿼리만들고
+            preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) values(?, ? , ?)");
 
-        preparedStatement.setLong(1, user.getId());
-        preparedStatement.setString(2, user.getName());
-        preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getPassword());
 
-        // 실행
-        preparedStatement.executeUpdate();
-        // 결과매핑
-        //자원을 해지한다.
-        preparedStatement.close();
-        connection.close();
+            // 실행
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+           if(preparedStatement != null)
+               try {
+                   preparedStatement.close();
+               } catch (SQLException e) {
+                   e.printStackTrace();
+               }
+            if(connection != null)
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+        }
 
     }
 
+    public void delete(Long id) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            //데이터는어디에?   Mysql
+            //Driver Class Load
+            connection = dataSource.getConnection();
+
+            // 쿼리만들고
+            preparedStatement = connection.prepareStatement("delete from userinfo where id = ? ");
+
+            preparedStatement.setLong(1, id);
+
+            // 실행
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if(connection != null)
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+        }
+    }
 }

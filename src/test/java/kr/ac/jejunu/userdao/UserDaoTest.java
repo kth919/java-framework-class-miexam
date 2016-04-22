@@ -9,6 +9,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 
 public class UserDaoTest {
@@ -74,4 +76,23 @@ public class UserDaoTest {
         assertEquals(password, user.getPassword());
 
     }
+
+    @Test
+    public void delete() throws SQLException, ClassNotFoundException {
+
+        User user = new User();
+
+        Long id = 1L;
+        String name = "김태훈";
+        String password = "1234";
+
+        user.setId(id);
+        user.setName(name);
+        user.setPassword(password);
+
+        userDao.delete(id);
+        assertNull(userDao.get(id));
+    }
+
+
 }
