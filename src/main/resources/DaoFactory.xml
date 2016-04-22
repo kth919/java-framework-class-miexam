@@ -15,8 +15,10 @@
         <!--<property name="username" value="김태훈"/>-->
         <!--<property name="password" value="1234"/>-->
 
-    <bean id="" class="kr.ac.jejunu.userdao">
-        <property name="" ref=""/>
+    <bean id="connectionMaker" class="kr.ac.jejunu.userdao.JejuConnectionMaker"/>
+    <bean id="getUserDao" class="kr.ac.jejunu.userdao.UserDao">
+        <property name="connectionMaker" ref="connectionMaker"/>
     </bean>
+    <!--DaoFactory의 함수 getUserDao 의 의존성을 관리-->
 
 </beans>

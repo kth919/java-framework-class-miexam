@@ -64,4 +64,8 @@ public class UserDao {
 
     }
 
+    public void setConnectionMaker(ConnectionMaker connectionMaker){
+        this.connectionMaker = connectionMaker;
+    }
+
 }
