@@ -9,6 +9,6 @@ import java.sql.SQLException;
  */
 public abstract class StatementStrategy {
 
-    public abstract PreparedStatement makeStatement(Object object, Connection connection) throws SQLException;
+    public abstract PreparedStatement makeStatement(Connection connection) throws SQLException;
 
 }

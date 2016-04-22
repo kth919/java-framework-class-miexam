@@ -16,9 +16,12 @@
         <property name="password" value="1234"/>
     </bean>
 
-    <!--<bean id="connectionMaker" class="kr.ac.jejunu.userdao.JejuConnectionMaker"/>-->
-    <bean id="getUserDao" class="kr.ac.jejunu.userdao.UserDao">
+    <bean id="jdbcContext" class="kr.ac.jejunu.userdao.JdbcContext">
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--<bean id="connectionMaker" class="kr.ac.jejunu.userdao.JejuConnectionMaker"/>-->
+    <bean id="userDao" class="kr.ac.jejunu.userdao.UserDao">
+        <property name="jdbcContext" ref="jdbcContext"/>
     </bean>
     <!--DaoFactory의 함수 getUserDao 의 의존성을 관리-->
 

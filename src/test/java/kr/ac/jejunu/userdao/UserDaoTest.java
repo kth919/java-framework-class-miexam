@@ -25,7 +25,7 @@ public class UserDaoTest {
         public void setup(){
 
         ApplicationContext context = new GenericXmlApplicationContext("DaoFactory.xml");
-        userDao = context.getBean("getUserDao" , UserDao.class);
+        userDao = context.getBean("userDao" , UserDao.class);
 
         }
 

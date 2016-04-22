@@ -8,12 +8,20 @@ import java.sql.SQLException;
  * Created by admin on 2016-04-22.
  */
 public class DeleteStatementStrategy extends StatementStrategy {
-    @Override
-    public PreparedStatement makeStatement(Object object, Connection connection) throws SQLException {
 
-        PreparedStatement preparedStatement;
+    private Long id;
+    PreparedStatement preparedStatement;
+
+
+    public DeleteStatementStrategy(Long id){
+        this.id = id;
+    }
+
+    @Override
+    public PreparedStatement makeStatement(Connection connection) throws SQLException {
+
         preparedStatement = connection.prepareStatement("delete from userinfo where id = ? ");
-        preparedStatement.setLong(1, (Long) object);
+        preparedStatement.setLong(1, id);
         return preparedStatement;
     }
 }

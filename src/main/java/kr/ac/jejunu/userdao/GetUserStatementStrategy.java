@@ -9,13 +9,19 @@ import java.sql.SQLException;
  */
 public class GetUserStatementStrategy extends StatementStrategy {
 
-        PreparedStatement preparedStatement;
+    private Long id;
+
+    PreparedStatement preparedStatement;
+
+    public GetUserStatementStrategy(Long id) {
+        this.id = id;
+    }
 
     @Override
-    public PreparedStatement makeStatement(Object object, Connection connection) throws SQLException {
+    public PreparedStatement makeStatement(Connection connection) throws SQLException {
         preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
-        preparedStatement.setLong(1, (Long)object);
-        return preparedStatement;    }
-
+        preparedStatement.setLong(1, id);
+        return preparedStatement;
+    }
 
 }
