@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 import java.sql.*;
 
-public class UserDao {
+public  class UserDao {
 
     private DataSource dataSource;
 
@@ -26,10 +26,10 @@ public class UserDao {
         try {
             //DaoFactory에서 connectionMaker할당
             connection = dataSource.getConnection();
+            StatementStrategy statementStrategy = new GetUserStatementStrategy();
 
             // 쿼리만들고
-            preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
-            preparedStatement.setLong(1, id);
+            preparedStatement = statementStrategy.makeStatement(id, connection);
             // 실행
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
@@ -71,6 +71,8 @@ public class UserDao {
     }
 
 
+
+
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -78,18 +80,12 @@ public class UserDao {
             //데이터는어디에?   Mysql
             //Driver Class Load
             connection = dataSource.getConnection();
-
-            // 쿼리만들고
-            preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) values(?, ? , ?)");
-
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setString(2, user.getName());
-            preparedStatement.setString(3, user.getPassword());
+            StatementStrategy statementStrategy = new AddUserStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(user, connection);
 
             // 실행
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw e;
         } finally {
            if(preparedStatement != null)
@@ -116,11 +112,9 @@ public class UserDao {
             //데이터는어디에?   Mysql
             //Driver Class Load
             connection = dataSource.getConnection();
+            StatementStrategy statementStrategy = new DeleteStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(id, connection);
 
-            // 쿼리만들고
-            preparedStatement = connection.prepareStatement("delete from userinfo where id = ? ");
-
-            preparedStatement.setLong(1, id);
 
             // 실행
             preparedStatement.executeUpdate();

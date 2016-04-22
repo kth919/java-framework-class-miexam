@@ -11,6 +11,8 @@ import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class UserDaoTest {
@@ -46,9 +48,10 @@ public class UserDaoTest {
 
         User user = userDao.get(id);
 
-        assertEquals(id, user.getId());
-        assertEquals(name, user.getName());
-        assertEquals(password, user.getPassword());
+        assertThat(user.getId(), is(id));
+        assertThat(user.getName(), is(name));
+        assertThat(user.getPassword(), is(password));
+
     }
 
     @Test
@@ -72,8 +75,8 @@ public class UserDaoTest {
 
         userDao.add(user);
 
-        assertEquals(name, user.getName());
-        assertEquals(password, user.getPassword());
+        assertThat(user.getName(), is(name));
+        assertThat(user.getPassword(), is(password));
 
     }
 

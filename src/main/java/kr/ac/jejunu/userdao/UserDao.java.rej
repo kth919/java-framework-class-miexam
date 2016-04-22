@@ -1,0 +1,10 @@
+diff a/src/main/java/kr/ac/jejunu/userdao/UserDao.java b/src/main/java/kr/ac/jejunu/userdao/UserDao.java	(rejected hunks)
+@@ -64,4 +64,8 @@
+ 
+     }
+ 
++    public void setConnectionMaker(ConnectionMaker connectionMaker){
++        this.connectionMaker = connectionMaker;
++    }
++
+ }
