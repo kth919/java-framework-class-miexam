@@ -1,26 +1,26 @@
 package kr.ac.jejunu.userdao;
 
-import org.springframework.jdbc.datasource.ConnectionProxy;
-
+import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class UserDao {
 
-    ConnectionMaker connectionMaker;
+    private DataSource dataSource;
 
-    public UserDao(ConnectionMaker connectionMaker) {
-            this.connectionMaker = connectionMaker;
+    public UserDao(){
+
     }
 
-    public UserDao() {
-
+    public void setDataSource(DataSource dataSource){
+        this.dataSource = dataSource;
     }
 
 
     public User get(Long id) throws ClassNotFoundException, SQLException {
 
         //DaoFactory에서 connectionMaker할당
-        Connection connection = connectionMaker.getConnection();
+        Connection connection = dataSource.getConnection();
 
         // 쿼리만들고
         PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
@@ -46,7 +46,7 @@ public class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
         //데이터는어디에?   Mysql
         //Driver Class Load
-        Connection connection = connectionMaker.getConnection();
+        Connection connection = dataSource.getConnection();
 
         // 쿼리만들고
         PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) values(?, ? , ?)");
@@ -62,10 +62,6 @@ public class UserDao {
         preparedStatement.close();
         connection.close();
 
-    }
-
-    public void setConnectionMaker(ConnectionMaker connectionMaker){
-        this.connectionMaker = connectionMaker;
     }
 
 }

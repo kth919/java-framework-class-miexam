@@ -9,16 +9,18 @@
         <!--<property name="jdbcTemplate" ref="jdbcTemplate"/>-->
     <!--</bean>-->
 
-    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">-->
-        <!--<property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
-        <!--<property name="url" value="jdbcc:mysql://localhost/jeju?characterEncoding=utf-8"/>-->
-        <!--<property name="username" value="김태훈"/>-->
-        <!--<property name="password" value="1234"/>-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost/userinfo?characterEncoding=utf-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
+    </bean>
 
-    <bean id="connectionMaker" class="kr.ac.jejunu.userdao.JejuConnectionMaker"/>
+    <!--<bean id="connectionMaker" class="kr.ac.jejunu.userdao.JejuConnectionMaker"/>-->
     <bean id="getUserDao" class="kr.ac.jejunu.userdao.UserDao">
-        <property name="connectionMaker" ref="connectionMaker"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
     <!--DaoFactory의 함수 getUserDao 의 의존성을 관리-->
+
 
 </beans>
