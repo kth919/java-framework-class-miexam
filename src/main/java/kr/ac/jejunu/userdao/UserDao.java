@@ -12,6 +12,11 @@ public class UserDao {
             this.connectionMaker = connectionMaker;
     }
 
+    public UserDao() {
+
+    }
+
+
     public User get(Long id) throws ClassNotFoundException, SQLException {
 
         //DaoFactory에서 connectionMaker할당

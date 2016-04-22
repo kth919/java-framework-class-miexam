@@ -1,5 +1,8 @@
 package kr.ac.jejunu.userdao;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import java.sql.SQLException;
 
 /**
@@ -7,12 +10,11 @@ import java.sql.SQLException;
  */
 public class DaoFactory {
 
+    @Bean
     public UserDao getUserDao() throws SQLException, ClassNotFoundException {
         ConnectionMaker connection = new JejuConnectionMaker();
         UserDao userDao = new UserDao(connection);
         return userDao;
     }
-//    ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-//    userDao = context.getBean("userDao" , UserDao.class);
 
     }

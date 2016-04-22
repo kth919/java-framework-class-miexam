@@ -1,6 +1,8 @@
 package kr.ac.jejunu.userdao;
 
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,7 +17,15 @@ public class UserDaoTest {
 //        Connection connection = jejuConnectionMaker.getConnection();
 
 
-        UserDao userDao = new DaoFactory().getUserDao();
+//        UserDao userDao = new DaoFactory().getUserDao();
+//
+//        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+//        userDao = context.getBean("userDao" , UserDao.class);
+
+        UserDao userDao;
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        userDao = context.getBean("getUserDao" , UserDao.class);
 
         Long id = 1L;
         String name = "김태훈";
@@ -43,7 +53,12 @@ public class UserDaoTest {
 //        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
 //        Connection connection = jejuConnectionMaker.getConnection();
 
-        UserDao addUser = new DaoFactory().getUserDao();
+//        UserDao addUser = new DaoFactory().getUserDao();
+        UserDao addUser;
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        addUser = context.getBean("getUserDao" , UserDao.class);
+        
         addUser.add(user);
 
         assertEquals(name, user.getName());
