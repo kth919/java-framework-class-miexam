@@ -4,11 +4,8 @@ import java.sql.*;
 
 public class UserDao {
     public User get(Long id) throws ClassNotFoundException, SQLException {
-        //데이터는어디에?   Mysql
-        //Driver Class Load
-        Class.forName("com.mysql.jdbc.Driver");
-        // Connection    접속정보는? localhost jeju id : jeju pw: jejupw
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/userinfo", "root", "1234");
+
+        Connection connection = getConnection();
         // 쿼리만들고
         PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
         preparedStatement.setLong(1, id);
@@ -29,12 +26,11 @@ public class UserDao {
         return user;
     }
 
+
     public void add(User user) throws ClassNotFoundException, SQLException {
         //데이터는어디에?   Mysql
         //Driver Class Load
-        Class.forName("com.mysql.jdbc.Driver");
-        // Connection    접속정보는? localhost jeju id : jeju pw: jejupw
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/userinfo", "root", "1234");
+        Connection connection = getConnection();
         // 쿼리만들고
         PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) values(?, ? , ?)");
 
@@ -49,6 +45,11 @@ public class UserDao {
         preparedStatement.close();
         connection.close();
 
+    }
+
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        return DriverManager.getConnection("jdbc:mysql://localhost/userinfo", "root", "1234");
     }
 
 }
