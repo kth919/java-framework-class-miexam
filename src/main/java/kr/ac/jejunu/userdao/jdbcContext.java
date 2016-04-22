@@ -100,4 +100,20 @@ public class JdbcContext {
 
         }
     }
+
+    public void update(final String query, final String[] params) throws SQLException {
+        jdbcContextStatementStrategyForUpdate(new StatementStrategy() {
+            @Override
+            public PreparedStatement makeStatement(Connection connection) throws SQLException {
+                PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement(query);
+//                preparedStatement.setLong(1, id);
+                for(int i = 1; i<=params.length; i++){
+                    preparedStatement.setString(i, (params[i-1]));
+                }
+                return preparedStatement;
+            }
+        });
+    }
+
 }
