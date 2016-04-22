@@ -1,12 +1,21 @@
 package kr.ac.jejunu.userdao;
 
+import org.springframework.jdbc.datasource.ConnectionProxy;
+
 import java.sql.*;
 
 public class UserDao {
+
+    ConnectionMaker connectionMaker;
+
+    public UserDao(ConnectionMaker connectionMaker) {
+            this.connectionMaker = connectionMaker;
+    }
+
     public User get(Long id) throws ClassNotFoundException, SQLException {
 
-        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
-        Connection connection = jejuConnectionMaker.getConnection();
+        //DaoFactory에서 connectionMaker할당
+        Connection connection = connectionMaker.getConnection();
 
         // 쿼리만들고
         PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
@@ -32,10 +41,7 @@ public class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
         //데이터는어디에?   Mysql
         //Driver Class Load
-
-        JejuConnectionMaker jejuConnectionMaker = new JejuConnectionMaker();
-        Connection connection = jejuConnectionMaker.getConnection();
-
+        Connection connection = connectionMaker.getConnection();
 
         // 쿼리만들고
         PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) values(?, ? , ?)");
